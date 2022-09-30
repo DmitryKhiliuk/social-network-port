@@ -9,10 +9,10 @@ import {
     UserOutlined,
     SettingOutlined,
 } from '@ant-design/icons';
-import { Breadcrumb, Layout, Menu } from 'antd';
+import {Breadcrumb, Button, Layout, Menu} from 'antd';
 import {RoutesComponent} from "../../common/routes/RoutesComponent";
 import {NavLink} from "react-router-dom";
-import {MESSAGES, MUSIC, NEWS, PROFILE, SETTINGS, USERS} from "../../common/routes/routes";
+import {LOGIN, MESSAGES, MUSIC, NEWS, PROFILE, SETTINGS, USERS} from "../../common/routes/routes";
 
 export const AppLayout = () => {
     const [collapsed, setCollapsed] = useState(false);
@@ -49,12 +49,15 @@ export const AppLayout = () => {
                 <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
             </Sider>
             <Layout className="site-layout">
-                <Header
+                {/*<Header
                     className="site-layout-background"
                     style={{
                         padding: 0,
                     }}
-                />
+                />*/}
+                <Header className="site-layout-background" style={{padding: 5, display: 'flex', justifyContent: 'flex-end'}}>
+                    <NavLink to={LOGIN}><Button>Login</Button></NavLink>
+                </Header>
                 <Content style={{margin: '0 16px',}}>
                     <Breadcrumb style={{margin: '16px 0',}}>
                         <Breadcrumb.Item>User</Breadcrumb.Item>
