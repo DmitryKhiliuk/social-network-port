@@ -1,4 +1,5 @@
 import axios from "axios";
+import {LoginParamType} from "../common/types/types";
 
 const instance = axios.create({
     withCredentials: true,
@@ -12,8 +13,9 @@ export const authAPI = {
     me() {
         return instance.get(`auth/me`)
     },
-    login(email:string, password:string, rememberMe = false, captcha = '') {
-        return instance.post(`auth/login`, {email, password, rememberMe, captcha})
+    login(param: LoginParamType) {
+        console.log(param)
+        return instance.post(`auth/login`, param)
     },
     logout() {
         return instance.delete(`auth/login`)

@@ -1,9 +1,27 @@
 import React from 'react';
 import {Button, Checkbox, Form, Input} from "antd";
+import {useAppDispatch, useAppSelector} from "../../app/store";
+import {loginTC} from "./auth-reducer";
+import {LoginParamType} from "../../common/types/types";
+import {LOGIN, PROFILE} from "../../common/routes/routes";
+import {useNavigate} from "react-router-dom";
+
+
 
 export const Login = () => {
-    const onFinish = (values: any) => {
-        console.log('Success:', values);
+
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate();
+    const auth = useAppSelector(state => state.auth.isAuth)
+
+    if (auth) {
+        navigate(PROFILE)
+    }
+
+    const onFinish = (values: LoginParamType) => {
+        let valuesParam: LoginParamType = {...values, captcha: ''}
+        dispatch(loginTC(valuesParam))
+        console.log(valuesParam)
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -49,7 +67,7 @@ export const Login = () => {
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                 <Button type="primary" htmlType="submit">
-                    Submit
+                    Login
                 </Button>
             </Form.Item>
         </Form>
