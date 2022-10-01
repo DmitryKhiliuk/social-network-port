@@ -14,7 +14,6 @@ export const Login = () => {
     const auth = useAppSelector(state => state.auth.isAuth)
 
     useEffect(() => {
-        console.log('login')
         if (auth) {
             navigate(PROFILE)
         }

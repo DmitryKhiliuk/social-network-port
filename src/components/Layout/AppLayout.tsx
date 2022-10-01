@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons';
 import {Avatar, Breadcrumb, Button, Dropdown, Layout, Menu} from 'antd';
 import {RoutesComponent} from "../../common/routes/RoutesComponent";
-import {NavLink} from "react-router-dom";
+import {NavLink, useLocation} from "react-router-dom";
 import {LOGIN, MESSAGES, MUSIC, NEWS, PROFILE, SETTINGS, USERS} from "../../common/routes/routes";
 
 type AppLayoutType = {
@@ -21,6 +21,8 @@ type AppLayoutType = {
 
 export const AppLayout = (props: AppLayoutType) => {
     const [collapsed, setCollapsed] = useState(false);
+    let location = useLocation();
+    console.log(location.pathname)
 
     const {Header, Content, Footer, Sider} = Layout;
 
@@ -35,13 +37,16 @@ export const AppLayout = (props: AppLayoutType) => {
 
     const items = [
 
-        getItem(<NavLink to={PROFILE}>Profile</NavLink>, '1', <UserOutlined/>),
-        getItem(<NavLink to={MESSAGES}>Messages</NavLink>, '2', <MessageOutlined/>),
-        getItem(<NavLink to={USERS}>Users</NavLink>, '3', <TeamOutlined/>),
-        getItem(<NavLink to={NEWS}>News</NavLink>, '4', <GlobalOutlined/>),
-        getItem(<NavLink to={MUSIC}>Music</NavLink>, '5', <CaretRightOutlined/>),
-        getItem(<NavLink to={SETTINGS}>Settings</NavLink>, '6', <SettingOutlined/>),
+        getItem(<NavLink to={PROFILE}>Profile</NavLink>, PROFILE, <UserOutlined/>),
+        getItem(<NavLink to={MESSAGES}>Messages</NavLink>, MESSAGES, <MessageOutlined/>),
+        getItem(<NavLink to={USERS}>Users</NavLink>, USERS, <TeamOutlined/>),
+        getItem(<NavLink to={NEWS}>News</NavLink>, NEWS, <GlobalOutlined/>),
+        getItem(<NavLink to={MUSIC}>Music</NavLink>, MUSIC, <CaretRightOutlined/>),
+        getItem(<NavLink to={SETTINGS}>Settings</NavLink>, SETTINGS, <SettingOutlined/>),
     ];
+
+
+
     const onClickHandler = () => {
         props.logOut()
     }
@@ -61,7 +66,7 @@ export const AppLayout = (props: AppLayoutType) => {
         <Layout style={{minHeight: '100vh',}}>
             <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
                 <div className="logo"/>
-                <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items}/>
+                <Menu theme="dark" defaultSelectedKeys={[location.pathname]} mode="inline" items={items}/>
             </Sider>
             <Layout className="site-layout">
                 <Header className="site-layout-background"

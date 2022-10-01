@@ -10,7 +10,6 @@ export const Profile = () => {
     const auth = useAppSelector(state => state.auth.isAuth)
 
     useEffect(() => {
-        console.log('profile')
         if (!auth) {
             navigate(LOGIN)
         }

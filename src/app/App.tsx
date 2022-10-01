@@ -13,7 +13,6 @@ function App() {
 
     useEffect(() => {
        dispatch(getAuthUserDataTC())
-        console.log('fetch')
     }, [])
 
 
