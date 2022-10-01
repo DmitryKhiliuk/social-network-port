@@ -1,11 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Button, Checkbox, Form, Input} from "antd";
 import {useAppDispatch, useAppSelector} from "../../app/store";
 import {loginTC} from "./auth-reducer";
 import {LoginParamType} from "../../common/types/types";
-import {LOGIN, PROFILE} from "../../common/routes/routes";
+import {PROFILE} from "../../common/routes/routes";
 import {useNavigate} from "react-router-dom";
-
 
 
 export const Login = () => {
@@ -14,9 +13,13 @@ export const Login = () => {
     const navigate = useNavigate();
     const auth = useAppSelector(state => state.auth.isAuth)
 
-    if (auth) {
-        navigate(PROFILE)
-    }
+    useEffect(() => {
+        console.log('login')
+        if (auth) {
+            navigate(PROFILE)
+        }
+    }, [auth])
+
 
     const onFinish = (values: LoginParamType) => {
         let valuesParam: LoginParamType = {...values, captcha: ''}

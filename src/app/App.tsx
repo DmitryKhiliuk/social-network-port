@@ -4,7 +4,6 @@ import {AppLayout} from "../components/Layout/AppLayout";
 import {useAppDispatch, useAppSelector} from "./store";
 import {getAuthUserDataTC, logoutTC} from "../features/Login/auth-reducer";
 import {useNavigate} from "react-router-dom";
-import {LOGIN} from "../common/routes/routes";
 
 function App() {
 
@@ -13,10 +12,11 @@ function App() {
     const auth = useAppSelector(state => state.auth.isAuth)
 
     useEffect(() => {
-        if (!auth) {
-            navigate(LOGIN)
-        }
+       dispatch(getAuthUserDataTC())
+        console.log('fetch')
     }, [])
+
+
 
     const logOut = () => {
         dispatch(logoutTC())
