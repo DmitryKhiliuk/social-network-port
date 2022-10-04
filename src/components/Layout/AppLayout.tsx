@@ -13,6 +13,7 @@ import {Avatar, Button, Dropdown, Layout, Menu, Spin, Typography} from 'antd';
 import {RoutesComponent} from "../../common/routes/RoutesComponent";
 import {NavLink, useLocation} from "react-router-dom";
 import {LOGIN, MESSAGES, MUSIC, NEWS, PROFILE, SETTINGS, USERS} from "../../common/routes/routes";
+import {Preloader} from "../Preloader/Preloader";
 
 type AppLayoutType = {
     logOut: () => void
@@ -69,7 +70,7 @@ export const AppLayout = (props: AppLayoutType) => {
                 <div className="logo"/>
                 <Menu theme="dark" defaultSelectedKeys={[location.pathname]} mode="inline" items={items}/>
             </Sider>
-            {props.status === 'loading'? <Spin/>:
+            {props.status === 'loading'? <Preloader/>:
             <Layout className="site-layout">
                 <Header className="site-layout-background"
                         style={{paddingRight: '15px', display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>

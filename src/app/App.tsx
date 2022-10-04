@@ -6,6 +6,7 @@ import {useNavigate} from "react-router-dom";
 import {Progress, Spin} from "antd";
 import {initializeAppTC} from "./app-reducer";
 import {logoutTC} from "../features/Login/auth-reducer";
+import {Preloader} from "../components/Preloader/Preloader";
 
 
 function App() {
@@ -21,9 +22,7 @@ function App() {
     }, [])
 
     if (!isInitialized) {
-        return <div style={{height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-            <Spin size={'large'} />
-        </div>
+        return <Preloader/>
     }
 
     const logOut = () => {

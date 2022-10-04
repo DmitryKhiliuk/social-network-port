@@ -14,8 +14,19 @@ export type LoginParamType = {
     captcha: ''
 }
 
-export type MeResponseType = {
-    id: number,
-    email: string,
-    password: string
+export type UserType = {
+    id: number
+    name: string
+    status: string
+    photos: {
+        small: string
+        large: string
+    }
+    followed: boolean
+}
+
+export type UsersResponseType = {
+    items: UserType[]
+    totalCount: number
+    error: string
 }
