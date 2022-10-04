@@ -1,12 +1,13 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {authAPI} from "../api/api";
-import {getAuthUserDataTC} from "../features/Login/auth-reducer";
+import {setIsAuthAC} from "../features/Login/auth-reducer";
+
 
 
 export const initializeAppTC = createAsyncThunk('app/initializeApp', async (param, {dispatch}) => {
     const res = await authAPI.me()
     if (res.data.resultCode === 0) {
-        dispatch(getAuthUserDataTC())
+        dispatch(setIsAuthAC({value: true}))
 
     }
 })
@@ -25,21 +26,17 @@ const slice = createSlice({
         setAppStatusAC(state, action: PayloadAction<{ status: 'idle' | 'loading' | 'succeeded' | 'failed' }>) {
             state.status = action.payload.status
         },
-        initializeAppAC(state, action: PayloadAction<{ isInitialized: boolean } >){
-            state.isInitialized = action.payload.isInitialized
-        },
 },
 extraReducers: builder => {
-    /*builder
+    builder
         .addCase(initializeAppTC.fulfilled, (state, action) => {
             state.isInitialized = true
-            console.log('init')
-        })*/
+        })
 }
 })
 
 export const appReducer = slice.reducer
-export const {setAppErrorAC, setAppStatusAC, initializeAppAC} = slice.actions
+export const {setAppErrorAC, setAppStatusAC} = slice.actions
 
 export type InitialStateType = {
     status: 'idle' | 'loading' | 'succeeded' | 'failed'

@@ -9,7 +9,7 @@ import {
     TeamOutlined,
     UserOutlined,
 } from '@ant-design/icons';
-import {Avatar, Button, Dropdown, Layout, Menu, Progress, Spin, Typography} from 'antd';
+import {Avatar, Button, Dropdown, Layout, Menu, Spin, Typography} from 'antd';
 import {RoutesComponent} from "../../common/routes/RoutesComponent";
 import {NavLink, useLocation} from "react-router-dom";
 import {LOGIN, MESSAGES, MUSIC, NEWS, PROFILE, SETTINGS, USERS} from "../../common/routes/routes";
@@ -45,15 +45,16 @@ export const AppLayout = (props: AppLayoutType) => {
         getItem(<NavLink to={SETTINGS}>Settings</NavLink>, SETTINGS, <SettingOutlined/>),
     ];
 
-
-
     const onClickHandler = () => {
         props.logOut()
     }
     const menu = (
         <Menu
             items={[
-                {key: '1', label: (<NavLink to={PROFILE}>Profile</NavLink>),},
+                {
+                    key: '1',
+                    label: (<NavLink to={PROFILE}>Profile</NavLink>),
+                },
                 {
                     key: '2',
                     label: (<Button type="text" style={{padding: 0}} onClick={onClickHandler}>Log Out</Button>),

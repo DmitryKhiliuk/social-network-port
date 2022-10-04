@@ -1,46 +1,37 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {LoginParamType} from "../../common/types/types";
 import {authAPI} from "../../api/api";
 import {setAppStatusAC} from "../../app/app-reducer";
 
-
-export const getAuthUserDataTC = createAsyncThunk('auth/me', async (param, thunkAPI) => {
+export const loginTC = createAsyncThunk('auth/login', async (param: LoginParamType, thunkAPI) => {
     thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
     try {
-        const res = await authAPI.me()
+        const res = await authAPI.login(param)
         if (res.data.resultCode === 0) {
             thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
             return
         } else {
-            thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
+            console.log(res.data)
         }
     } catch (error) {
-
-    }
-})
-
-export const loginTC = createAsyncThunk('auth/login', async (param: LoginParamType, thunkAPI) => {
-    try {
-        let res = await authAPI.login(param)
-        if (res.data.resultCode === 0) {
-            thunkAPI.dispatch(getAuthUserDataTC())
-        }
-    } catch (error) {
-
+        console.log(error)
     }
 })
 
 export const logoutTC = createAsyncThunk('auth/logout', async (param, thunkAPI) => {
+    thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
+    const res = await authAPI.logout()
     try {
-        let res = await authAPI.logout()
         if (res.data.resultCode === 0) {
-            thunkAPI.dispatch(getAuthUserDataTC())
+            thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
+        } else {
+            console.log(res.data)
         }
     } catch (error) {
-
+        console.log(error)
     }
-})
 
+})
 
 const slice = createSlice({
     name: 'auth',
@@ -48,19 +39,24 @@ const slice = createSlice({
         isAuth: false,
     } as initialStateType,
     reducers: {
-
+        setIsAuthAC(state, action: PayloadAction<{value: boolean}>) {
+            state.isAuth = action.payload.value
+        }
     },
     extraReducers: builder => {
         builder
-            .addCase(getAuthUserDataTC.fulfilled, (state, action) => {
-                (!state.isAuth) ? state.isAuth = true : state.isAuth = false;
-
+            .addCase(loginTC.fulfilled, (state) => {
+                state.isAuth = true
+            })
+            .addCase(logoutTC.fulfilled, (state) => {
+                state.isAuth = false
             })
 
     }
 })
 
 export const authReducer = slice.reducer
+export const {setIsAuthAC} = slice.actions
 
 
 

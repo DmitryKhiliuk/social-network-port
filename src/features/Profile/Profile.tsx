@@ -1,7 +1,5 @@
 import React, {useEffect} from 'react';
 import {useNavigate} from "react-router-dom";
-import {getAuthUserDataTC} from "../Login/auth-reducer";
-import {LOGIN} from "../../common/routes/routes";
 import {useAppSelector} from "../../app/store";
 
 export const Profile = () => {
@@ -9,14 +7,14 @@ export const Profile = () => {
     const auth = useAppSelector(state => state.auth.isAuth)
 
     useEffect(() => {
-        /*if (!auth) {
-            navigate(LOGIN, {replace: true})
-        }*/
     }, [auth])
+
     return (
+
         <div>
             PROFILE
         </div>
+
     );
 };
 

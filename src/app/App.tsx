@@ -2,10 +2,10 @@ import React, {useEffect} from 'react';
 import './App.css';
 import {AppLayout} from "../components/Layout/AppLayout";
 import {useAppDispatch, useAppSelector} from "./store";
-import {getAuthUserDataTC, logoutTC} from "../features/Login/auth-reducer";
 import {useNavigate} from "react-router-dom";
 import {Progress, Spin} from "antd";
-import {initializeAppAC} from "./app-reducer";
+import {initializeAppTC} from "./app-reducer";
+import {logoutTC} from "../features/Login/auth-reducer";
 
 
 function App() {
@@ -17,10 +17,7 @@ function App() {
     const status = useAppSelector(state => state.app.status)
 
     useEffect(() => {
-        let promise = dispatch(getAuthUserDataTC())
-        Promise.all([promise])
-            .then(() => {dispatch(initializeAppAC({isInitialized: true}))})
-
+        dispatch(initializeAppTC())
     }, [])
 
     if (!isInitialized) {
@@ -29,14 +26,12 @@ function App() {
         </div>
     }
 
-
     const logOut = () => {
         dispatch(logoutTC())
     }
 
     return (
         <div className="App">
-
             <AppLayout logOut={logOut} auth={auth} status={status}/>
         </div>
     );
