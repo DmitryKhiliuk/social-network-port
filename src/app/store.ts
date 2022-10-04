@@ -2,10 +2,12 @@ import {combineReducers, configureStore} from "@reduxjs/toolkit";
 import thunkMiddleware from 'redux-thunk'
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import {authReducer} from "../features/Login/auth-reducer";
+import {appReducer} from "./app-reducer";
 
 
 export const rootReducer = combineReducers({
-    auth: authReducer
+    auth: authReducer,
+    app: appReducer,
 })
 
 export const store = configureStore({

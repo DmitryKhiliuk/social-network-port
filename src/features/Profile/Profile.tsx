@@ -5,14 +5,13 @@ import {LOGIN} from "../../common/routes/routes";
 import {useAppSelector} from "../../app/store";
 
 export const Profile = () => {
-
     const navigate = useNavigate();
     const auth = useAppSelector(state => state.auth.isAuth)
 
     useEffect(() => {
-        if (!auth) {
-            navigate(LOGIN)
-        }
+        /*if (!auth) {
+            navigate(LOGIN, {replace: true})
+        }*/
     }, [auth])
     return (
         <div>

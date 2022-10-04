@@ -8,7 +8,6 @@ import {useNavigate} from "react-router-dom";
 
 
 export const Login = () => {
-
     const dispatch = useAppDispatch()
     const navigate = useNavigate();
     const auth = useAppSelector(state => state.auth.isAuth)
@@ -23,7 +22,6 @@ export const Login = () => {
     const onFinish = (values: LoginParamType) => {
         let valuesParam: LoginParamType = {...values, captcha: ''}
         dispatch(loginTC(valuesParam))
-        console.log(valuesParam)
     };
 
     const onFinishFailed = (errorInfo: any) => {

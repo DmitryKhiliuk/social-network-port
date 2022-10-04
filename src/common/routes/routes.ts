@@ -1,7 +1,7 @@
-export const PROFILE = '/';
+export const PROFILE = '/profile';
 export const MESSAGES = '/messages';
 export const USERS = '/users';
-export const LOGIN = '/login';
+export const LOGIN = '/';
 export const NEWS = '/news';
 export const MUSIC = '/music';
 export const SETTINGS = '/settings';

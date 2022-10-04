@@ -3,13 +3,13 @@ import 'antd/dist/antd.css';
 import './AppLayout.css';
 import {
     CaretRightOutlined,
-    MessageOutlined,
     GlobalOutlined,
+    MessageOutlined,
+    SettingOutlined,
     TeamOutlined,
     UserOutlined,
-    SettingOutlined,
 } from '@ant-design/icons';
-import {Avatar, Breadcrumb, Button, Dropdown, Layout, Menu} from 'antd';
+import {Avatar, Button, Dropdown, Layout, Menu, Progress, Spin, Typography} from 'antd';
 import {RoutesComponent} from "../../common/routes/RoutesComponent";
 import {NavLink, useLocation} from "react-router-dom";
 import {LOGIN, MESSAGES, MUSIC, NEWS, PROFILE, SETTINGS, USERS} from "../../common/routes/routes";
@@ -17,12 +17,12 @@ import {LOGIN, MESSAGES, MUSIC, NEWS, PROFILE, SETTINGS, USERS} from "../../comm
 type AppLayoutType = {
     logOut: () => void
     auth: boolean
+    status: 'idle' | 'loading' | 'succeeded' | 'failed'
 }
 
 export const AppLayout = (props: AppLayoutType) => {
     const [collapsed, setCollapsed] = useState(false);
     let location = useLocation();
-    console.log(location.pathname)
 
     const {Header, Content, Footer, Sider} = Layout;
 
@@ -68,15 +68,20 @@ export const AppLayout = (props: AppLayoutType) => {
                 <div className="logo"/>
                 <Menu theme="dark" defaultSelectedKeys={[location.pathname]} mode="inline" items={items}/>
             </Sider>
+            {props.status === 'loading'? <Spin/>:
             <Layout className="site-layout">
                 <Header className="site-layout-background"
                         style={{paddingRight: '15px', display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
                     {
                         !props.auth ?
                             <NavLink to={LOGIN} ><Button >Login</Button></NavLink> :
-                            <Dropdown overlay={menu} placement="bottomLeft" arrow>
-                                <Avatar shape="square" size='large' icon={<UserOutlined/>}/>
-                            </Dropdown>
+                            <div>
+                                <Typography.Text strong>{'user' + ' '}</Typography.Text>
+                                <Dropdown overlay={menu} placement="bottomLeft" arrow>
+                                    <Avatar shape="square" size='large' icon={<UserOutlined/>}/>
+                                </Dropdown>
+                            </div>
+
                     }
                 </Header>
                 <Content style={{margin: '0 16px',}}>
@@ -88,6 +93,7 @@ export const AppLayout = (props: AppLayoutType) => {
                     Ant Design ©2018 Created by Ant UED
                 </Footer>
             </Layout>
+            }
         </Layout>
     );
 };

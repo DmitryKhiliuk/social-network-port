@@ -1,13 +1,18 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {LoginParamType} from "../../common/types/types";
 import {authAPI} from "../../api/api";
+import {setAppStatusAC} from "../../app/app-reducer";
 
 
 export const getAuthUserDataTC = createAsyncThunk('auth/me', async (param, thunkAPI) => {
+    thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
     try {
         const res = await authAPI.me()
         if (res.data.resultCode === 0) {
-            return res.data.data
+            thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
+            return
+        } else {
+            thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
         }
     } catch (error) {
 
@@ -40,20 +45,15 @@ export const logoutTC = createAsyncThunk('auth/logout', async (param, thunkAPI) 
 const slice = createSlice({
     name: 'auth',
     initialState: {
-        id: null,
-        login: '',
-        email: '',
         isAuth: false,
-        captchaUrl: ''
     } as initialStateType,
-    reducers: {},
+    reducers: {
+
+    },
     extraReducers: builder => {
         builder
             .addCase(getAuthUserDataTC.fulfilled, (state, action) => {
                 (!state.isAuth) ? state.isAuth = true : state.isAuth = false;
-                !state.id ? state.id = action.payload.id : state.id = null;
-                !state.login ? state.login = action.payload.login : state.login = '';
-                !state.email ? state.email = action.payload.email : state.email = ''
 
             })
 
@@ -62,9 +62,8 @@ const slice = createSlice({
 
 export const authReducer = slice.reducer
 
+
+
 export type initialStateType = {
-    id: number | null,
-    email: string,
-    login: string,
     isAuth: boolean
 }

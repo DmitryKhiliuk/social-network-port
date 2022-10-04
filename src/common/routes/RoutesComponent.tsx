@@ -8,10 +8,13 @@ import {Music} from "../../features/Music/Music";
 import {Settings} from "../../features/Settings/Settings";
 import {ErrorPage} from "../../features/Error/ErrorPage";
 import {Navigate, Route, Routes} from "react-router-dom";
+import {useAppSelector} from "../../app/store";
 
 export const RoutesComponent = () => {
+    const auth = useAppSelector(state => state.auth.isAuth)
+    const comp = auth ? <Profile/> : <Navigate to={LOGIN}/>
     const routes = [
-        {path: PROFILE, component: <Profile/>},
+        {path: PROFILE, component: comp},
         {path: MESSAGES, component: <Messages/>},
         {path: USERS, component: <Users/>},
         {path: LOGIN, component: <Login/>},
