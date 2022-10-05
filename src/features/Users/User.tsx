@@ -24,7 +24,7 @@ export const User = (props: UserPropsType) => {
     return (
         <div>
             <Card.Grid style={{width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                <img src={props.photo === null ? userPhoto : props.photo} style={{width: '100px', height: '100px'}} alt=""/>
+                <img src={props.photo === null ? userPhoto : props.photo} style={{width: '100px', height: '100px'}} alt="user"/>
                 <div>
                     {props.name}
                     {props.status}

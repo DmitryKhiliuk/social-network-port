@@ -7,7 +7,7 @@ import {setIsAuthAC} from "../features/Login/auth-reducer";
 export const initializeAppTC = createAsyncThunk('app/initializeApp', async (param, {dispatch}) => {
     const res = await authAPI.me()
     if (res.data.resultCode === 0) {
-        dispatch(setIsAuthAC({value: true}))
+        dispatch(setIsAuthAC({isAuth: true, id: res.data.data.id}))
 
     }
 })

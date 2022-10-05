@@ -9,7 +9,8 @@ export const loginTC = createAsyncThunk('auth/login', async (param: LoginParamTy
         const res = await authAPI.login(param)
         if (res.data.resultCode === 0) {
             thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
-            return
+            console.log(res.data.data.userId)
+            return res.data.data.userId
         } else {
             console.log(res.data)
         }
@@ -37,19 +38,24 @@ const slice = createSlice({
     name: 'auth',
     initialState: {
         isAuth: false,
+        id: null
     } as initialStateType,
     reducers: {
-        setIsAuthAC(state, action: PayloadAction<{value: boolean}>) {
-            state.isAuth = action.payload.value
+        setIsAuthAC(state, action: PayloadAction<{isAuth: boolean, id: number}>) {
+            state.isAuth = action.payload.isAuth
+            state.id = action.payload.id
         }
     },
     extraReducers: builder => {
         builder
-            .addCase(loginTC.fulfilled, (state) => {
+            .addCase(loginTC.fulfilled, (state, action) => {
+                console.log(action)
                 state.isAuth = true
+                state.id = action.payload
             })
             .addCase(logoutTC.fulfilled, (state) => {
                 state.isAuth = false
+                state.id = null
             })
 
     }
@@ -62,4 +68,5 @@ export const {setIsAuthAC} = slice.actions
 
 export type initialStateType = {
     isAuth: boolean
+    id: number | null
 }
