@@ -2,8 +2,8 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {ProfileUserStateType} from "../../common/types/types";
 import {profileAPI} from "../../api/api";
 
-export const getProfileTC = createAsyncThunk('profile/getProfile', async (param:{id: string}, ThunkAPI) => {
-    const res = await profileAPI.getProfile(+param.id)
+export const getProfileTC = createAsyncThunk('profile/getProfile', async (param:{id: number}, ThunkAPI) => {
+    const res = await profileAPI.getProfile(param.id!)
     try {
         return res.data
     } catch (error) {

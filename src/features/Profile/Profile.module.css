@@ -1,0 +1,23 @@
+.editBlock {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.photoBlock {
+    position: relative;
+}
+.job {
+    position: absolute;
+    top: -30px;
+    right: -70px;
+}
+.photo {
+    width: 150px;
+    height: 150px;
+}
+.jobImage {
+    width: 100px;
+    height: 100px;
+    border: 1px solid white;
+    border-radius: 100%;
+}

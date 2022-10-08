@@ -3,10 +3,14 @@ import {useAppDispatch, useAppSelector} from "../../app/store";
 import {followUserTC, getUsersTC, unfollowUserTC} from "./users-reducer";
 import {User} from "./User";
 import {Pagination} from "antd";
+import {getProfileTC} from "../Profile/profile-reducer";
+import {useNavigate} from "react-router-dom";
+import {PROFILE} from "../../common/routes/routes";
 
 export const Users = () => {
 
     const dispatch = useAppDispatch()
+    const navigate = useNavigate();
     const users = useAppSelector(state => state.users.users)
     const totalCount = useAppSelector(state => state.users.totalCount)
 
@@ -22,12 +26,19 @@ export const Users = () => {
         dispatch(getUsersTC({page, pageSize}))
     }, [page, pageSize])
 
+
     const followUser = (id: number) => {
         dispatch(followUserTC({id}))
     }
     const unfollowUser = (id: number) => {
         dispatch(unfollowUserTC({id}))
     }
+
+    const viewProfileUser = (id: number) => {
+        dispatch(getProfileTC({id}))
+        navigate(PROFILE + `/${id}`)
+    }
+
     return (
         <div>
             <Pagination defaultCurrent={page} total={totalCount} onChange={onChangeHandler} />
@@ -38,6 +49,7 @@ export const Users = () => {
                                      followed={el.followed}
                                      callBackFollow={followUser}
                                      callBackUnfollow={unfollowUser}
+                                     callBackView={viewProfileUser}
             photo={el.photos.small}/>)}
         </div>
     );

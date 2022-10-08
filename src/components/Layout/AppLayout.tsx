@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons';
 import {Avatar, Button, Dropdown, Layout, Menu, Spin, Typography} from 'antd';
 import {RoutesComponent} from "../../common/routes/RoutesComponent";
-import {NavLink, useLocation} from "react-router-dom";
+import {NavLink, useLocation, useNavigate, useParams} from "react-router-dom";
 import {LOGIN, MESSAGES, MUSIC, NEWS, PROFILE, SETTINGS, USERS} from "../../common/routes/routes";
 import {Preloader} from "../Preloader/Preloader";
 
@@ -19,12 +19,17 @@ type AppLayoutType = {
     logOut: () => void
     auth: boolean
     status: 'idle' | 'loading' | 'succeeded' | 'failed'
+    id: number | null
 }
 
 export const AppLayout = (props: AppLayoutType) => {
     const [collapsed, setCollapsed] = useState(false);
     let location = useLocation();
-
+    const navigate = useNavigate();
+    const userId = useParams()
+    console.log(userId)
+    const key = location.pathname
+    console.log(location.pathname)
     const {Header, Content, Footer, Sider} = Layout;
 
     function getItem(label: JSX.Element, key: string, icon?: JSX.Element, children?: any) {
@@ -38,7 +43,7 @@ export const AppLayout = (props: AppLayoutType) => {
 
     const items = [
 
-        getItem(<NavLink to={PROFILE}>Profile</NavLink>, PROFILE, <UserOutlined/>),
+        getItem(<NavLink to={PROFILE + `/${props.id}`}>Profile</NavLink>, PROFILE + `/${props.id}`, <UserOutlined/>),
         getItem(<NavLink to={MESSAGES}>Messages</NavLink>, MESSAGES, <MessageOutlined/>),
         getItem(<NavLink to={USERS}>Users</NavLink>, USERS, <TeamOutlined/>),
         getItem(<NavLink to={NEWS}>News</NavLink>, NEWS, <GlobalOutlined/>),
@@ -48,13 +53,14 @@ export const AppLayout = (props: AppLayoutType) => {
 
     const onClickHandler = () => {
         props.logOut()
+
     }
     const menu = (
         <Menu
             items={[
                 {
                     key: '1',
-                    label: (<NavLink to={PROFILE}>Profile</NavLink>),
+                    label: (<NavLink to={PROFILE + `/${props.id}`}>Profile</NavLink>),
                 },
                 {
                     key: '2',

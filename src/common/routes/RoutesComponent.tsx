@@ -14,7 +14,7 @@ export const RoutesComponent = () => {
     const auth = useAppSelector(state => state.auth.isAuth)
     const comp = auth ? <Profile/> : <Navigate to={LOGIN}/>
     const routes = [
-        {path: PROFILE, component: comp},
+        {path: PROFILE + '/:id', component: comp},
         {path: MESSAGES, component: <Messages/>},
         {path: USERS, component: <Users/>},
         {path: LOGIN, component: <Login/>},

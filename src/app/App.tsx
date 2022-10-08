@@ -14,6 +14,7 @@ function App() {
     const dispatch = useAppDispatch()
     const navigate = useNavigate();
     const auth = useAppSelector(state => state.auth.isAuth)
+    const id = useAppSelector(state => state.auth.id)
     const isInitialized = useAppSelector(state => state.app.isInitialized)
     const status = useAppSelector(state => state.app.status)
 
@@ -31,7 +32,7 @@ function App() {
 
     return (
         <div className="App">
-            <AppLayout logOut={logOut} auth={auth} status={status}/>
+            <AppLayout logOut={logOut} auth={auth} status={status} id={id}/>
         </div>
     );
 }

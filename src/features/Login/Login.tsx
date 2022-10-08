@@ -11,10 +11,11 @@ export const Login = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate();
     const auth = useAppSelector(state => state.auth.isAuth)
+    const id = useAppSelector(state => state.auth.id)
 
     useEffect(() => {
         if (auth) {
-            navigate(PROFILE)
+            navigate(PROFILE + `/${id}`)
         }
     }, [auth])
 

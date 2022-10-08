@@ -9,7 +9,6 @@ export const loginTC = createAsyncThunk('auth/login', async (param: LoginParamTy
         const res = await authAPI.login(param)
         if (res.data.resultCode === 0) {
             thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
-            console.log(res.data.data.userId)
             return res.data.data.userId
         } else {
             console.log(res.data)
@@ -49,7 +48,6 @@ const slice = createSlice({
     extraReducers: builder => {
         builder
             .addCase(loginTC.fulfilled, (state, action) => {
-                console.log(action)
                 state.isAuth = true
                 state.id = action.payload
             })
