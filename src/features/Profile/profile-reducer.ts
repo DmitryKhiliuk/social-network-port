@@ -12,6 +12,15 @@ export const getProfileTC = createAsyncThunk('profile/getProfile', async (param:
 
 })
 
+export const savePhotoTC = createAsyncThunk('profile/savePhoto', async (param:{file:string}, ThunkAPI) => {
+    const res = await profileAPI.savePhoto(param.file)
+    try {
+        return res.data.data.photos
+    }  catch (error) {
+        console.log(error)
+    }
+})
+
 const slice = createSlice({
     name: 'profile',
     initialState: {
@@ -23,6 +32,9 @@ const slice = createSlice({
         builder
             .addCase(getProfileTC.fulfilled, (state, action) => {
                 state.profile = action.payload
+            })
+            .addCase(savePhotoTC.fulfilled, (state, action) => {
+                state.profile.photos!.large = action.payload
             })
     }
 })

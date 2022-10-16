@@ -4,12 +4,19 @@ import TextArea from "antd/es/input/TextArea";
 import ImgCrop from 'antd-img-crop';
 import {RcFile} from "antd/es/upload";
 import {ProfileUserStateType} from "../../common/types/types";
+import {useAppDispatch} from "../../app/store";
+import {savePhotoTC} from "../../features/Profile/profile-reducer";
 
 type ModalFormType = {
     profile: ProfileUserStateType
 }
 
 export const ModalForm = (props: ModalFormType) => {
+
+    const dispatch = useAppDispatch()
+
+
+
     const onFinish = (values: any) => {
         console.log('Success:', values);
     };
@@ -26,9 +33,11 @@ export const ModalForm = (props: ModalFormType) => {
             url: props.profile.photos?.large,
         },
     ]);
+    console.log(fileList)
 
     const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
         setFileList(newFileList);
+        console.log(fileList[0])
     };
 
     const onPreview = async (file: UploadFile) => {
@@ -65,7 +74,7 @@ export const ModalForm = (props: ModalFormType) => {
                         onChange={onChange}
                         onPreview={onPreview}
                     >
-                        {fileList.length < 1 && '+ Upload'}
+                        {fileList.length < 2 && '+ Upload'}
                     </Upload>
                 </ImgCrop>
             </Form.Item>
