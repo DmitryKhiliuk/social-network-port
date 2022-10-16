@@ -74,7 +74,7 @@ export const ModalForm = (props: ModalFormType) => {
                 name="profile"
                 labelCol={{span: 8}}
                 wrapperCol={{span: 16}}
-                initialValues={{lookingForAJob: false}}
+                initialValues={{lookingForAJob: props.profile.lookingForAJob}}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
                 autoComplete="off"
@@ -95,21 +95,22 @@ export const ModalForm = (props: ModalFormType) => {
                 <Form.Item
                     label="Username"
                     name="username"
+                    initialValue={props.profile.fullName}
 
                 >
-                    <Input/>
+                    <Input />
                 </Form.Item>
 
-                <Form.Item label="My professional skills" name="skills">
+                <Form.Item label="My professional skills" name="skills" initialValue={props.profile.lookingForAJobDescription}>
                     <TextArea rows={4}/>
                 </Form.Item>
 
-                <Form.Item label="About me" name="aboutMe">
+                <Form.Item label="About me" name="aboutMe" initialValue={props.profile.aboutMe}>
                     <TextArea rows={4}/>
                 </Form.Item>
 
-                <Form.Item name="lookingForAJob" valuePropName="checked" wrapperCol={{offset: 8, span: 16}}>
-                    <Checkbox>Looking for A Job?</Checkbox>
+                <Form.Item label="LookingForAJob" name="lookingForAJob" valuePropName="checked" wrapperCol={{offset: 8, span: 16}}  >
+                    <Checkbox />
                 </Form.Item>
 
                 <Form.Item wrapperCol={{offset: 8, span: 16}}>
