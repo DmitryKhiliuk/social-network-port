@@ -3,11 +3,12 @@ import React from 'react';
 import TextArea from "antd/es/input/TextArea";
 import {ProfileUserStateType} from "../../common/types/types";
 import {useAppDispatch} from "../../app/store";
-import {savePhotoTC} from "../../features/Profile/profile-reducer";
+import {savePhotoTC, saveProfileTC} from "../../features/Profile/profile-reducer";
 import {EditOutlined} from "@ant-design/icons";
 
 type ModalFormType = {
     profile: ProfileUserStateType
+    status: string
 }
 
 export const ModalForm = (props: ModalFormType) => {
@@ -17,6 +18,8 @@ export const ModalForm = (props: ModalFormType) => {
 
     const onFinish = (values: any) => {
         console.log('Success:', values);
+        dispatch(saveProfileTC(values))
+
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -70,6 +73,7 @@ export const ModalForm = (props: ModalFormType) => {
                     <EditOutlined  style={{width: '50px', height: '50px', fontSize: '24px', cursor: 'pointer'}}/>
                 </label>
             </div>
+
             <Form
                 name="profile"
                 labelCol={{span: 8}}
@@ -94,14 +98,23 @@ export const ModalForm = (props: ModalFormType) => {
             </Form.Item>*/}
                 <Form.Item
                     label="Username"
-                    name="username"
+                    name="fullName"
                     initialValue={props.profile.fullName}
 
                 >
                     <Input />
                 </Form.Item>
 
-                <Form.Item label="My professional skills" name="skills" initialValue={props.profile.lookingForAJobDescription}>
+                {/*<Form.Item
+                    label="Status"
+                    name="status"
+                    initialValue={props.status}
+
+                >
+                    <Input />
+                </Form.Item>*/}
+
+                <Form.Item label="My professional skills" name="lookingForAJobDescription" initialValue={props.profile.lookingForAJobDescription}>
                     <TextArea rows={4}/>
                 </Form.Item>
 

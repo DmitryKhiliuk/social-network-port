@@ -1,6 +1,7 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, Dispatch} from "@reduxjs/toolkit";
 import {ProfileUserStateType} from "../../common/types/types";
 import {profileAPI} from "../../api/api";
+import {AppRootStateType} from "../../app/store";
 
 export const getProfileTC = createAsyncThunk('profile/getProfile', async (param:{id: number}, ThunkAPI) => {
     const res = await profileAPI.getProfile(param.id!)
@@ -13,11 +14,24 @@ export const getProfileTC = createAsyncThunk('profile/getProfile', async (param:
 })
 
 export const savePhotoTC = createAsyncThunk('profile/savePhoto', async (param: { file: string }, ThunkAPI) => {
-    console.log(param)
     const res = await profileAPI.savePhoto(param.file)
     try {
         return res.data.data
     }  catch (error) {
+        console.log(error)
+    }
+})
+
+export const saveProfileTC = createAsyncThunk<number, ProfileUserStateType>('profile/saveProfile', async (param: ProfileUserStateType, ThunkAPI ) => {
+    const res = await profileAPI.saveProfile(param)
+    try {
+        const userId = ThunkAPI.getState() as AppRootStateType;
+        if (res.data.resultCode === 0 && userId.auth.id) {
+            ThunkAPI.dispatch(getProfileTC({id: userId.auth.id}))
+        }
+        console.log(userId)
+        return res.data.resultCode
+    } catch (error) {
         console.log(error)
     }
 })
@@ -35,8 +49,10 @@ const slice = createSlice({
                 state.profile = action.payload
             })
             .addCase(savePhotoTC.fulfilled, (state, action) => {
-                console.log(action.payload)
                 state.profile.photos = action.payload.photos
+            })
+            .addCase(saveProfileTC.fulfilled, (state, action) => {
+
             })
     }
 })

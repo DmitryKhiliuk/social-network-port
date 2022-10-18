@@ -5,6 +5,7 @@ import {ProfileUserStateType} from "../../common/types/types";
 
 type ModalEditProfileType = {
     profile: ProfileUserStateType
+    status: string
 }
 
 export const ModalEditProfile = (props: ModalEditProfileType) => {
@@ -28,7 +29,7 @@ export const ModalEditProfile = (props: ModalEditProfileType) => {
                 Edit Profile
             </Button>
             <Modal title="Edit Profile" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                <ModalForm profile={props.profile}/>
+                <ModalForm profile={props.profile} status={props.status}/>
             </Modal>
         </>
     );

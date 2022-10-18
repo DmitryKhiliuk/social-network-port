@@ -32,7 +32,7 @@ export const Profile = () => {
                         {profile.lookingForAJob && <img src={needJob} className={s.jobImage} alt="user"/>}
                     </div>
                 </div>
-                <ModalEditProfile profile={profile}/>
+                <ModalEditProfile profile={profile} status={status}/>
             </div>
             <div>
                 <Typography.Title level={3}>{profile.fullName}</Typography.Title>
