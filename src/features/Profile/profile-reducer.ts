@@ -13,6 +13,27 @@ export const getProfileTC = createAsyncThunk('profile/getProfile', async (param:
 
 })
 
+export const getStatusTC = createAsyncThunk('profile/getStatus', async (param:{id: number}, ThunkAPI) => {
+    const res = await profileAPI.getStatus(param.id!)
+    try {
+        return res.data
+    } catch (error) {
+        console.log(error)
+    }
+
+})
+
+export const saveStatusTC = createAsyncThunk('profile/saveStatus', async(param: {status: string} , ThunkAPI) => {
+    const res = await profileAPI.updateStatus(param.status)
+    try {
+        const userId = ThunkAPI.getState() as AppRootStateType;
+        ThunkAPI.dispatch(getStatusTC({id: userId.auth.id!}))
+        return res.data
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 export const savePhotoTC = createAsyncThunk('profile/savePhoto', async (param: { file: string }, ThunkAPI) => {
     const res = await profileAPI.savePhoto(param.file)
     try {
@@ -47,6 +68,9 @@ const slice = createSlice({
         builder
             .addCase(getProfileTC.fulfilled, (state, action) => {
                 state.profile = action.payload
+            })
+            .addCase(getStatusTC.fulfilled, (state, action) => {
+                state.status = action.payload
             })
             .addCase(savePhotoTC.fulfilled, (state, action) => {
                 state.profile.photos = action.payload.photos
