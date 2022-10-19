@@ -17,6 +17,7 @@ function App() {
     const id = useAppSelector(state => state.auth.id)
     const isInitialized = useAppSelector(state => state.app.isInitialized)
     const status = useAppSelector(state => state.app.status)
+    const profile = useAppSelector(state => state.profile.profile)
 
     useEffect(() => {
         dispatch(initializeAppTC())
@@ -32,7 +33,7 @@ function App() {
 
     return (
         <div className="App">
-            <AppLayout logOut={logOut} auth={auth} status={status} id={id}/>
+            <AppLayout logOut={logOut} auth={auth} status={status} id={id} profile={profile}/>
         </div>
     );
 }

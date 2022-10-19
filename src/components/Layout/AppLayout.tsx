@@ -14,12 +14,16 @@ import {RoutesComponent} from "../../common/routes/RoutesComponent";
 import {NavLink, useLocation, useNavigate, useParams} from "react-router-dom";
 import {LOGIN, MESSAGES, MUSIC, NEWS, PROFILE, SETTINGS, USERS} from "../../common/routes/routes";
 import {Preloader} from "../Preloader/Preloader";
+import {ProfileUserStateType} from "../../common/types/types";
+import logo from '../../assets/logo.svg'
+import logoShort from '../../assets/logoShort.png'
 
 type AppLayoutType = {
     logOut: () => void
     auth: boolean
     status: 'idle' | 'loading' | 'succeeded' | 'failed'
     id: number | null
+    profile: ProfileUserStateType
 }
 
 export const AppLayout = (props: AppLayoutType) => {
@@ -27,9 +31,7 @@ export const AppLayout = (props: AppLayoutType) => {
     let location = useLocation();
     const navigate = useNavigate();
     const userId = useParams()
-    console.log(userId)
     const key = location.pathname
-    console.log(location.pathname)
     const {Header, Content, Footer, Sider} = Layout;
 
     function getItem(label: JSX.Element, key: string, icon?: JSX.Element, children?: any) {
@@ -73,7 +75,7 @@ export const AppLayout = (props: AppLayoutType) => {
     return (
         <Layout style={{minHeight: '100vh',}}>
             <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-                <div className="logo"/>
+                <img className="logo" src={collapsed ? logoShort : logo}/>
                 <Menu theme="dark" defaultSelectedKeys={[location.pathname]} mode="inline" items={items}/>
             </Sider>
             {props.status === 'loading'? <Preloader/>:
@@ -84,9 +86,9 @@ export const AppLayout = (props: AppLayoutType) => {
                         !props.auth ?
                             <NavLink to={LOGIN} ><Button >Login</Button></NavLink> :
                             <div>
-                                <Typography.Text strong>{'user' + ' '}</Typography.Text>
+                                <Typography.Text strong>{props.profile.fullName + ' '}</Typography.Text>
                                 <Dropdown overlay={menu} placement="bottomLeft" arrow>
-                                    <Avatar shape="square" size='large' icon={<UserOutlined/>}/>
+                                    <Avatar shape="square" size='large' icon={<UserOutlined/>} src={props.profile.photos?.large}/>
                                 </Dropdown>
                             </div>
 
@@ -98,7 +100,7 @@ export const AppLayout = (props: AppLayoutType) => {
                     </div>
                 </Content>
                 <Footer style={{textAlign: 'center',}}>
-                    Ant Design ©2018 Created by Ant UED
+                    <a href="https://portfolio-dzmitry-khiliuk.herokuapp.com">Portfolio</a> | khiliukbrest@gmail.ru | <a href="https://github.com/DmitryKhiliuk">Git</a>
                 </Footer>
             </Layout>
             }
