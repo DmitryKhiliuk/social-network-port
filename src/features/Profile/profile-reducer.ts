@@ -45,12 +45,12 @@ export const savePhotoTC = createAsyncThunk('profile/savePhoto', async (param: {
 
 export const saveProfileTC = createAsyncThunk<number, ProfileUserStateType>('profile/saveProfile', async (param: ProfileUserStateType, ThunkAPI ) => {
     const res = await profileAPI.saveProfile(param)
+    console.log(param)
     try {
         const userId = ThunkAPI.getState() as AppRootStateType;
         if (res.data.resultCode === 0 && userId.auth.id) {
             ThunkAPI.dispatch(getProfileTC({id: userId.auth.id}))
         }
-        console.log(userId)
         return res.data.resultCode
     } catch (error) {
         console.log(error)

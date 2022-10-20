@@ -29,14 +29,16 @@ export const Profile = () => {
 
     const onChangeHandler = (e:ChangeEvent<HTMLInputElement>) => {
         setValue(e.currentTarget.value)
+
+
     }
 
     const onClickHandler = () => {
+        !value && setValue(status)
         setEditStatus(true)
     }
 
     const onClickSaveHandler = () => {
-        console.log(value)
         dispatch(saveStatusTC({status: value}))
         setEditStatus(false)
     }

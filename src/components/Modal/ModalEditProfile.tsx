@@ -29,7 +29,10 @@ export const ModalEditProfile = (props: ModalEditProfileType) => {
                 Edit Profile
             </Button>
             <Modal title="Edit Profile" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                <ModalForm profile={props.profile} status={props.status}/>
+                <ModalForm
+                    profile={props.profile}
+                    status={props.status}
+                />
             </Modal>
         </>
     );

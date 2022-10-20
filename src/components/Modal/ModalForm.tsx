@@ -1,10 +1,11 @@
 import {Button, Checkbox, Form, Input} from 'antd';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import TextArea from "antd/es/input/TextArea";
 import {ProfileUserStateType} from "../../common/types/types";
 import {useAppDispatch} from "../../app/store";
 import {savePhotoTC, saveProfileTC} from "../../features/Profile/profile-reducer";
 import {EditOutlined} from "@ant-design/icons";
+import {ContactForm} from "./ContactForm";
 
 type ModalFormType = {
     profile: ProfileUserStateType
@@ -15,12 +16,20 @@ export const ModalForm = (props: ModalFormType) => {
 
     const dispatch = useAppDispatch()
 
+    const [requestProfile, setRequestProfile] = useState<ProfileUserStateType>(props.profile)
 
     const onFinish = (values: any) => {
-        console.log('Success:', values);
-        dispatch(saveProfileTC(values))
-
+        setRequestProfile(values)
     };
+
+    const submitContacts = (values:any) => {
+        setRequestProfile ({...requestProfile, contacts: values})
+    }
+
+
+    useEffect(() => {
+        dispatch(saveProfileTC(requestProfile))
+    }, [requestProfile])
 
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
@@ -100,19 +109,9 @@ export const ModalForm = (props: ModalFormType) => {
                     label="Username"
                     name="fullName"
                     initialValue={props.profile.fullName}
-
                 >
                     <Input />
                 </Form.Item>
-
-                {/*<Form.Item
-                    label="Status"
-                    name="status"
-                    initialValue={props.status}
-
-                >
-                    <Input />
-                </Form.Item>*/}
 
                 <Form.Item label="My professional skills" name="lookingForAJobDescription" initialValue={props.profile.lookingForAJobDescription}>
                     <TextArea rows={4}/>
@@ -126,12 +125,14 @@ export const ModalForm = (props: ModalFormType) => {
                     <Checkbox />
                 </Form.Item>
 
+
                 <Form.Item wrapperCol={{offset: 8, span: 16}}>
                     <Button type="primary" htmlType="submit">
-                        Submit
+                        Save Profile
                     </Button>
                 </Form.Item>
             </Form>
+            <ContactForm callBackForm={submitContacts} profile={props.profile}/>
         </div>
     );
 };
