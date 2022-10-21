@@ -33,6 +33,10 @@ export type UsersResponseType = {
     error: string
 }
 
+export type ProfileResponseType = {
+
+}
+
 export type ContactsProfileStateType = {
     facebook: string
     website: string

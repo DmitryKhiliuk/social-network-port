@@ -43,7 +43,7 @@ export const savePhotoTC = createAsyncThunk('profile/savePhoto', async (param: {
     }
 })
 
-export const saveProfileTC = createAsyncThunk<number, ProfileUserStateType>('profile/saveProfile', async (param: ProfileUserStateType, ThunkAPI ) => {
+export const saveProfileTC = createAsyncThunk<string[], ProfileUserStateType>('profile/saveProfile', async (param: ProfileUserStateType, ThunkAPI ) => {
     ThunkAPI.dispatch(changeProfileStatusAC(false))
     const res = await profileAPI.saveProfile(param)
     try {
@@ -52,7 +52,7 @@ export const saveProfileTC = createAsyncThunk<number, ProfileUserStateType>('pro
             ThunkAPI.dispatch(getProfileTC({id: userId.auth.id}))
             ThunkAPI.dispatch(changeProfileStatusAC(true))
         }
-        return res.data.resultCode
+        return res.data.messages
     } catch (error) {
         console.log(error)
     }
@@ -64,6 +64,7 @@ const slice = createSlice({
         profile: {} as ProfileUserStateType,
         status: '' as string,
         updateProfileStatus: true,
+        message: [] as string[]
 
     },
     reducers: {
@@ -83,7 +84,7 @@ const slice = createSlice({
                 state.profile.photos = action.payload.photos
             })
             .addCase(saveProfileTC.fulfilled, (state, action) => {
-
+                state.message = action.payload
             })
     }
 })

@@ -7,6 +7,7 @@ type ModalEditProfileType = {
     profile: ProfileUserStateType
     status: string
     profileStatus: boolean
+    message: string[]
 }
 
 export const ModalEditProfile = (props: ModalEditProfileType) => {
@@ -34,6 +35,7 @@ export const ModalEditProfile = (props: ModalEditProfileType) => {
                     profile={props.profile}
                     status={props.status}
                     profileStatus={props.profileStatus}
+                    message={props.message}
                 />
             </Modal>
         </>

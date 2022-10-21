@@ -11,6 +11,7 @@ type ModalFormType = {
     profile: ProfileUserStateType
     status: string
     profileStatus: boolean
+    message: string[]
 
 }
 
@@ -145,7 +146,7 @@ export const ModalForm = (props: ModalFormType) => {
                     }
                 </Form.Item>
             </Form>
-            <ContactForm callBackForm={submitContacts} profile={props.profile}  profileStatus={props.profileStatus}/>
+            <ContactForm callBackForm={submitContacts} profile={props.profile}  profileStatus={props.profileStatus} message={props.message}/>
         </div>
     );
 };
