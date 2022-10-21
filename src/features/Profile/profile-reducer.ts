@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice, Dispatch} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {ProfileUserStateType} from "../../common/types/types";
 import {profileAPI} from "../../api/api";
 import {AppRootStateType} from "../../app/store";
@@ -44,12 +44,13 @@ export const savePhotoTC = createAsyncThunk('profile/savePhoto', async (param: {
 })
 
 export const saveProfileTC = createAsyncThunk<number, ProfileUserStateType>('profile/saveProfile', async (param: ProfileUserStateType, ThunkAPI ) => {
+    ThunkAPI.dispatch(changeProfileStatusAC(false))
     const res = await profileAPI.saveProfile(param)
-    console.log(param)
     try {
         const userId = ThunkAPI.getState() as AppRootStateType;
         if (res.data.resultCode === 0 && userId.auth.id) {
             ThunkAPI.dispatch(getProfileTC({id: userId.auth.id}))
+            ThunkAPI.dispatch(changeProfileStatusAC(true))
         }
         return res.data.resultCode
     } catch (error) {
@@ -61,9 +62,15 @@ const slice = createSlice({
     name: 'profile',
     initialState: {
         profile: {} as ProfileUserStateType,
-        status: '' as string
+        status: '' as string,
+        updateProfileStatus: true,
+
     },
-    reducers: {},
+    reducers: {
+        changeProfileStatusAC(state, action){
+            state.updateProfileStatus = action.payload
+        }
+    },
     extraReducers: builder => {
         builder
             .addCase(getProfileTC.fulfilled, (state, action) => {
@@ -80,5 +87,9 @@ const slice = createSlice({
             })
     }
 })
+
+export const {
+    changeProfileStatusAC
+} = slice.actions
 
 export const profileReducer = slice.reducer

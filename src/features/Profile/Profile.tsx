@@ -15,6 +15,7 @@ export const Profile = () => {
     const auth = useAppSelector(state => state.auth.isAuth)
     const profile = useAppSelector(state => state.profile.profile)
     const status = useAppSelector(state => state.profile.status)
+    const profileStatus = useAppSelector(state => state.profile.updateProfileStatus)
 
     const userId = useParams()
     const id = +userId.id!
@@ -53,7 +54,7 @@ export const Profile = () => {
                         {profile.lookingForAJob && <img src={needJob} className={s.jobImage} alt="user"/>}
                     </div>
                 </div>
-                <ModalEditProfile profile={profile} status={status}/>
+                <ModalEditProfile profile={profile} status={status} profileStatus={profileStatus}/>
             </div>
 
             <div>

@@ -4,12 +4,14 @@ import TextArea from "antd/es/input/TextArea";
 import {ProfileUserStateType} from "../../common/types/types";
 import {useAppDispatch} from "../../app/store";
 import {savePhotoTC, saveProfileTC} from "../../features/Profile/profile-reducer";
-import {EditOutlined} from "@ant-design/icons";
+import {CheckOutlined, EditOutlined} from "@ant-design/icons";
 import {ContactForm} from "./ContactForm";
 
 type ModalFormType = {
     profile: ProfileUserStateType
     status: string
+    profileStatus: boolean
+
 }
 
 export const ModalForm = (props: ModalFormType) => {
@@ -17,13 +19,20 @@ export const ModalForm = (props: ModalFormType) => {
     const dispatch = useAppDispatch()
 
     const [requestProfile, setRequestProfile] = useState<ProfileUserStateType>(props.profile)
+    const [success, setSuccess] = useState(false)
 
     const onFinish = (values: any) => {
         setRequestProfile(values)
+        setSuccess(true)
     };
 
     const submitContacts = (values:any) => {
         setRequestProfile ({...requestProfile, contacts: values})
+
+    }
+
+    const onFocusHandler = () => {
+        setSuccess(false)
     }
 
 
@@ -90,6 +99,7 @@ export const ModalForm = (props: ModalFormType) => {
                 initialValues={{lookingForAJob: props.profile.lookingForAJob}}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
+                onFocus={onFocusHandler}
                 autoComplete="off"
             >
                 {/*<Form.Item label="Add file" valuePropName="fileList">
@@ -127,12 +137,15 @@ export const ModalForm = (props: ModalFormType) => {
 
 
                 <Form.Item wrapperCol={{offset: 8, span: 16}}>
-                    <Button type="primary" htmlType="submit">
-                        Save Profile
-                    </Button>
+                    {success && props.profileStatus ?
+                        <Button type="primary" shape="round" icon={<CheckOutlined />} size={'middle'} style={{backgroundColor: 'green', border: 'green'}}/>:
+                        <Button type="primary" htmlType="submit">
+                            Save Profile
+                        </Button>
+                    }
                 </Form.Item>
             </Form>
-            <ContactForm callBackForm={submitContacts} profile={props.profile}/>
+            <ContactForm callBackForm={submitContacts} profile={props.profile}  profileStatus={props.profileStatus}/>
         </div>
     );
 };
