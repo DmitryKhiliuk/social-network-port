@@ -5,7 +5,7 @@ import {useAppDispatch, useAppSelector} from "./store";
 import {useNavigate} from "react-router-dom";
 import {Progress, Spin} from "antd";
 import {initializeAppTC} from "./app-reducer";
-import {logoutTC} from "../features/Login/auth-reducer";
+import {getProfileInfoTC, logoutTC, resetProfileInfoAC} from "../features/Login/auth-reducer";
 import {Preloader} from "../components/Preloader/Preloader";
 
 
@@ -13,7 +13,7 @@ function App() {
 
     const dispatch = useAppDispatch()
     const navigate = useNavigate();
-    const auth = useAppSelector(state => state.auth.isAuth)
+    const auth = useAppSelector(state => state.auth)
     const id = useAppSelector(state => state.auth.id)
     const isInitialized = useAppSelector(state => state.app.isInitialized)
     const status = useAppSelector(state => state.app.status)
@@ -23,12 +23,20 @@ function App() {
         dispatch(initializeAppTC())
     }, [])
 
+    useEffect(() => {
+        console.log(id)
+        id && dispatch(getProfileInfoTC({id}))
+    }, [id])
+
     if (!isInitialized) {
         return <Preloader/>
     }
 
     const logOut = () => {
+
         dispatch(logoutTC())
+        dispatch(resetProfileInfoAC({}))
+        console.log('logout' + id)
     }
 
     return (

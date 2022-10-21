@@ -14,6 +14,13 @@ export type LoginParamType = {
     captcha: ''
 }
 
+export type authType = {
+    isAuth: boolean
+    id: number | null
+    fullName: string
+    photos: PhotosType
+}
+
 export type PhotosType = {
     small: string
     large: string
@@ -50,7 +57,7 @@ export type ContactsProfileStateType = {
 
 export type ProfileUserStateType = {
     aboutMe: string
-    id: number
+    userId: number
     lookingForAJob: boolean
     lookingForAJobDescription: string
     fullName: string

@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { Button, Modal } from 'antd';
 import {ModalForm} from "./ModalForm";
-import {ProfileUserStateType} from "../../common/types/types";
+import {authType, ProfileUserStateType} from "../../common/types/types";
 
 type ModalEditProfileType = {
     profile: ProfileUserStateType
     status: string
     profileStatus: boolean
     message: string[]
+    auth: authType
 }
 
 export const ModalEditProfile = (props: ModalEditProfileType) => {
@@ -25,11 +26,11 @@ export const ModalEditProfile = (props: ModalEditProfileType) => {
         setIsModalOpen(false);
     };
 
+
     return (
         <>
-            <Button type="primary" onClick={showModal} >
-                Edit Profile
-            </Button>
+            {props.auth.id === props.profile.userId &&
+            <Button type="primary" onClick={showModal}>Edit Profile</Button>}
             <Modal title="Edit Profile" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                 <ModalForm
                     profile={props.profile}

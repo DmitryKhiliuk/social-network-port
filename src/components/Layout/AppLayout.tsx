@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import 'antd/dist/antd.css';
 import './AppLayout.css';
 import {
@@ -14,13 +14,15 @@ import {RoutesComponent} from "../../common/routes/RoutesComponent";
 import {NavLink, useLocation, useNavigate, useParams} from "react-router-dom";
 import {LOGIN, MESSAGES, MUSIC, NEWS, PROFILE, SETTINGS, USERS} from "../../common/routes/routes";
 import {Preloader} from "../Preloader/Preloader";
-import {ProfileUserStateType} from "../../common/types/types";
+import {authType, ProfileUserStateType} from "../../common/types/types";
 import logo from '../../assets/logo.svg'
 import logoShort from '../../assets/logoShort.png'
+import {getProfileInfoTC} from "../../features/Login/auth-reducer";
+import {useAppDispatch, useAppSelector} from "../../app/store";
 
 type AppLayoutType = {
     logOut: () => void
-    auth: boolean
+    auth: authType
     status: 'idle' | 'loading' | 'succeeded' | 'failed'
     id: number | null
     profile: ProfileUserStateType
@@ -29,10 +31,18 @@ type AppLayoutType = {
 export const AppLayout = (props: AppLayoutType) => {
     const [collapsed, setCollapsed] = useState(false);
     let location = useLocation();
+    const dispatch = useAppDispatch()
     const navigate = useNavigate();
     const userId = useParams()
     const key = location.pathname
     const {Header, Content, Footer, Sider} = Layout;
+    const id = useAppSelector(state => state.auth.id)
+
+    /*useEffect(() => {
+        console.log('layot' + id)
+        id && dispatch(getProfileInfoTC({id}))
+    }, [])*/
+
 
     function getItem(label: JSX.Element, key: string, icon?: JSX.Element, children?: any) {
         return {
@@ -78,7 +88,7 @@ export const AppLayout = (props: AppLayoutType) => {
                 <img className="logo" src={collapsed ? logoShort : logo}/>
                 <Menu theme="dark" defaultSelectedKeys={[location.pathname]} mode="inline" items={items}/>
             </Sider>
-            {props.status === 'loading'? <Preloader/>:
+            {props.status === 'loading'? <div style={{margin: 'auto'}}><Preloader/></div>:
             <Layout className="site-layout">
                 <Header className="site-layout-background"
                         style={{paddingRight: '15px', display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
@@ -86,9 +96,9 @@ export const AppLayout = (props: AppLayoutType) => {
                         !props.auth ?
                             <NavLink to={LOGIN} ><Button >Login</Button></NavLink> :
                             <div>
-                                <Typography.Text strong>{props.profile.fullName + ' '}</Typography.Text>
+                                <Typography.Text strong>{props.auth.fullName + ' '}</Typography.Text>
                                 <Dropdown overlay={menu} placement="bottomLeft" arrow>
-                                    <Avatar shape="square" size='large' icon={<UserOutlined/>} src={props.profile.photos?.large}/>
+                                    <Avatar shape="square" size='large' icon={<UserOutlined/>} src={props.auth.photos?.large}/>
                                 </Dropdown>
                             </div>
 

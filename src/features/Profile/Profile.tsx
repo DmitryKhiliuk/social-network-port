@@ -12,7 +12,7 @@ import {EditOutlined} from "@ant-design/icons";
 export const Profile = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch()
-    const auth = useAppSelector(state => state.auth.isAuth)
+    const auth = useAppSelector(state => state.auth)
     const profile = useAppSelector(state => state.profile.profile)
     const status = useAppSelector(state => state.profile.status)
     const profileStatus = useAppSelector(state => state.profile.updateProfileStatus)
@@ -55,7 +55,7 @@ export const Profile = () => {
                         {profile.lookingForAJob && <img src={needJob} className={s.jobImage} alt="user"/>}
                     </div>
                 </div>
-                <ModalEditProfile profile={profile} status={status} profileStatus={profileStatus} message={message}/>
+                <ModalEditProfile profile={profile} status={status} profileStatus={profileStatus} message={message} auth={auth}/>
             </div>
 
             <div>
