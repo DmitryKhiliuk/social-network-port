@@ -2,6 +2,7 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {ProfileUserStateType} from "../../common/types/types";
 import {profileAPI} from "../../api/api";
 import {AppRootStateType} from "../../app/store";
+import {getProfileInfoTC} from "../Login/auth-reducer";
 
 export const getProfileTC = createAsyncThunk('profile/getProfile', async (param:{id: number}, ThunkAPI) => {
     const res = await profileAPI.getProfile(param.id!)
@@ -50,6 +51,7 @@ export const saveProfileTC = createAsyncThunk<string[], ProfileUserStateType>('p
         const userId = ThunkAPI.getState() as AppRootStateType;
         if (res.data.resultCode === 0 && userId.auth.id) {
             ThunkAPI.dispatch(getProfileTC({id: userId.auth.id}))
+            ThunkAPI.dispatch(getProfileInfoTC({id: userId.auth.id}))
             ThunkAPI.dispatch(changeProfileStatusAC(true))
         }
         return res.data.messages

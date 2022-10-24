@@ -6,6 +6,7 @@ import {usersAPI} from "../../api/api";
 export const getUsersTC = createAsyncThunk('users/getUsers', async (param: { page: number, pageSize: number }, ThunkAPI) => {
     const res = await usersAPI.getUsers(param.page, param.pageSize)
     try {
+        console.log(param)
         return res.data
     } catch (error) {
 
@@ -34,11 +35,17 @@ const slice = createSlice({
     name: 'users',
     initialState: {
         users: [],
-        count: 5,
         totalCount: 0,
-        currentPage: 1,
+        page: 1,
+        count: 10
     } as InitialStateType,
-    reducers: {},
+    reducers: {
+        setInfoUsersPageAC(state,action) {
+            console.log(action)
+            state.page = action.payload.page
+            state.count = action.payload.count
+        }
+    },
     extraReducers: builder => {
         builder
             .addCase(getUsersTC.fulfilled, (state, action) => {
@@ -58,11 +65,12 @@ const slice = createSlice({
 })
 
 export const usersReducer = slice.reducer
+export const {setInfoUsersPageAC} = slice.actions
 
 type InitialStateType = {
     users: UserType[]
+    totalCount: number,
+    page: number,
     count: number
-    totalCount: number
-    currentPage: number
 
 }

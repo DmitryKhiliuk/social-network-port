@@ -5,7 +5,9 @@ import App from './app/App';
 import reportWebVitals from './reportWebVitals';
 import {HashRouter} from "react-router-dom";
 import {Provider} from "react-redux";
-import {store} from "./app/store";
+import {persistor, store} from "./app/store";
+import {PersistGate} from "redux-persist/integration/react";
+import {Preloader} from "./components/Preloader/Preloader";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -13,7 +15,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <HashRouter>
       <Provider store={store}>
-          <App />
+          <PersistGate loading={<Preloader/>} persistor={persistor}>
+              <App/>
+          </PersistGate>
       </Provider>
   </HashRouter>
 );

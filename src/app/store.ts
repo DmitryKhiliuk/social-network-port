@@ -5,6 +5,8 @@ import {authReducer} from "../features/Login/auth-reducer";
 import {appReducer} from "./app-reducer";
 import {usersReducer} from "../features/Users/users-reducer";
 import {profileReducer} from "../features/Profile/profile-reducer";
+import {FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE,} from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 
 
 export const rootReducer = combineReducers({
@@ -14,10 +16,24 @@ export const rootReducer = combineReducers({
     profile: profileReducer
 })
 
+const persistConfig = {
+    key: 'root',
+    storage,
+    whitelist: ['users']
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
 export const store = configureStore({
-    reducer: rootReducer,
-    middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(thunkMiddleware)
+    reducer: persistedReducer,
+    middleware: getDefaultMiddleware => getDefaultMiddleware({
+        serializableCheck: {
+            ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        },
+    }).prepend(thunkMiddleware)
 })
+
+export const persistor = persistStore(store)
 
 export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector;

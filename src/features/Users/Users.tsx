@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../app/store";
-import {followUserTC, getUsersTC, unfollowUserTC} from "./users-reducer";
+import {followUserTC, getUsersTC, setInfoUsersPageAC, unfollowUserTC} from "./users-reducer";
 import {User} from "./User";
 import {Pagination} from "antd";
 import {getProfileTC} from "../Profile/profile-reducer";
@@ -13,14 +13,17 @@ export const Users = () => {
     const navigate = useNavigate();
     const users = useAppSelector(state => state.users.users)
     const totalCount = useAppSelector(state => state.users.totalCount)
+    const page = useAppSelector(state => state.users.page)
+    const pageSize = useAppSelector(state => state.users.count)
 
-    const [page, setPage] = useState(1)
-    const [pageSize, setPageSize] = useState(10)
+    /*const [page, setPage] = useState(1)
+    const [pageSize, setPageSize] = useState(10)*/
 
 
     const onChangeHandler = (page: number, pageSize: number) => {
-        setPage(page)
-        setPageSize(pageSize)
+        dispatch(setInfoUsersPageAC({page, count: pageSize}))
+        /*setPage(page)
+        setPageSize(pageSize)*/
     }
     useEffect(() => {
         dispatch(getUsersTC({page, pageSize}))

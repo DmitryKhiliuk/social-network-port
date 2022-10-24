@@ -1,5 +1,5 @@
-import React, {ChangeEvent, ChangeEventHandler, useEffect, useState} from 'react';
-import {useNavigate, useParams} from "react-router-dom";
+import React, {ChangeEvent, useEffect, useState} from 'react';
+import {useParams} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../app/store";
 import userPhoto from './../../assets/someUser.png'
 import needJob from './../../assets/Job.jpg'
@@ -8,9 +8,10 @@ import s from './Profile.module.css'
 import {Button, Input, Typography} from "antd";
 import {ModalEditProfile} from "../../components/Modal/ModalEditProfile";
 import {EditOutlined} from "@ant-design/icons";
+import {ContactsProfileStateType} from "../../common/types/types";
 
 export const Profile = () => {
-    const navigate = useNavigate();
+
     const dispatch = useAppDispatch()
     const auth = useAppSelector(state => state.auth)
     const profile = useAppSelector(state => state.profile.profile)
@@ -21,10 +22,20 @@ export const Profile = () => {
     const userId = useParams()
     const id = +userId.id!
 
+    //const {facebook, github, instagram, mainLink, twitter, vk, website, youtube} = profile.contacts
+
+
+
     useEffect(() => {
         dispatch(getProfileTC({id}))
         dispatch(getStatusTC({id}))
-    }, [id])
+    }, [dispatch,id])
+
+
+
+    useEffect(() => {
+        console.log(profile.contacts)
+    },[profile.contacts])
 
     const [editStatus, setEditStatus] = useState(false)
     const [value, setValue] = useState('')
@@ -79,6 +90,9 @@ export const Profile = () => {
                 <Typography.Title level={5}>{profile.aboutMe}</Typography.Title>
             </div>
             <Typography.Text > Contacts: </Typography.Text>
+            {profile.contacts && Object.keys(profile.contacts).map((el , index ) => {
+                return <Typography.Text key={index}>{profile.contacts[el as keyof ContactsProfileStateType] && el + ':' + profile.contacts[el as keyof ContactsProfileStateType]}</Typography.Text>
+            })}
         </div>
 
     );
