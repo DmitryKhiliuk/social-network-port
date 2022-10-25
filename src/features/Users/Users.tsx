@@ -16,14 +16,9 @@ export const Users = () => {
     const page = useAppSelector(state => state.users.page)
     const pageSize = useAppSelector(state => state.users.count)
 
-    /*const [page, setPage] = useState(1)
-    const [pageSize, setPageSize] = useState(10)*/
-
-
     const onChangeHandler = (page: number, pageSize: number) => {
         dispatch(setInfoUsersPageAC({page, count: pageSize}))
-        /*setPage(page)
-        setPageSize(pageSize)*/
+
     }
     useEffect(() => {
         dispatch(getUsersTC({page, pageSize}))
@@ -44,16 +39,13 @@ export const Users = () => {
 
     return (
         <div>
-            <Pagination defaultCurrent={page} total={totalCount} onChange={onChangeHandler} />
+            <Pagination defaultCurrent={page} defaultPageSize={pageSize} total={totalCount} onChange={onChangeHandler} />
             {users.map((el) => <User key={el.id}
-                                     id={el.id}
-                                     name={el.name}
-                                     status={el.status}
-                                     followed={el.followed}
+                                     user={el}
                                      callBackFollow={followUser}
                                      callBackUnfollow={unfollowUser}
                                      callBackView={viewProfileUser}
-            photo={el.photos.small}/>)}
+            />)}
         </div>
     );
 };

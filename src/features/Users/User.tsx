@@ -1,13 +1,10 @@
 import React, {useEffect} from 'react';
 import {Button, Card} from "antd";
 import userPhoto from './../../assets/someUser.png'
+import {UserType} from "../../common/types/types";
 
 type UserPropsType = {
-    id: number
-    name: string
-    status: string
-    photo: string
-    followed: boolean
+    user:  UserType
     callBackFollow: (id: number) => void
     callBackUnfollow: (id: number) => void
     callBackView: (id: number) => void
@@ -15,29 +12,29 @@ type UserPropsType = {
 
 export const User = (props: UserPropsType) => {
 
-
+    const {id, name, status, photos, followed} = props.user
 
     const onClickFollowHandler = () => {
-        props.callBackFollow(props.id)
+        props.callBackFollow(id)
     }
     const onClickUnfollowHandler = () => {
-        props.callBackUnfollow(props.id)
+        props.callBackUnfollow(id)
     }
 
     const onClickViewHandler = () => {
-        props.callBackView(props.id)
+        props.callBackView(id)
     }
 
     return (
         <div>
             <Card.Grid style={{width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                <img src={props.photo === null ? userPhoto : props.photo} style={{width: '100px', height: '100px'}} alt="user"/>
+                <img src={photos.small === null ? userPhoto : photos.small} style={{width: '100px', height: '100px'}} alt="user"/>
                 <div>
-                    {props.name}
-                    {props.status}
+                    {name}
+                    {status}
                 </div>
                 <div style={{display: 'flex', flexDirection: 'column'}}>
-                    {!props.followed ?
+                    {!followed ?
                         <Button type={'primary'} onClick={onClickFollowHandler}>Follow</Button> :
                         <Button type={'primary'} onClick={onClickUnfollowHandler}>Unfollow</Button>}
                     <Button type={'primary'} style={{marginTop: '5px'}} onClick={onClickViewHandler}>View profile</Button>

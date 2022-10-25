@@ -1,11 +1,10 @@
 import React, {useEffect} from 'react';
 import {Button, Checkbox, Form, Input, Space, Typography} from "antd";
 import {useAppDispatch, useAppSelector} from "../../app/store";
-import {getProfileInfoTC, loginTC} from "./auth-reducer";
+import {loginTC} from "./auth-reducer";
 import {LoginParamType} from "../../common/types/types";
 import {PROFILE} from "../../common/routes/routes";
 import {useNavigate} from "react-router-dom";
-import {getProfileTC} from "../Profile/profile-reducer";
 
 
 export const Login = () => {

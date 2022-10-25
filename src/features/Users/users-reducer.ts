@@ -6,7 +6,6 @@ import {usersAPI} from "../../api/api";
 export const getUsersTC = createAsyncThunk('users/getUsers', async (param: { page: number, pageSize: number }, ThunkAPI) => {
     const res = await usersAPI.getUsers(param.page, param.pageSize)
     try {
-        console.log(param)
         return res.data
     } catch (error) {
 

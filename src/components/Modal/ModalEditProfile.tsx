@@ -2,16 +2,13 @@ import React, { useState } from 'react';
 import { Button, Modal } from 'antd';
 import {ModalForm} from "./ModalForm";
 import {authType, ProfileUserStateType} from "../../common/types/types";
+import {useAppSelector} from "../../app/store";
 
-type ModalEditProfileType = {
-    profile: ProfileUserStateType
-    status: string
-    profileStatus: boolean
-    message: string[]
-    auth: authType
-}
+export const ModalEditProfile = () => {
 
-export const ModalEditProfile = (props: ModalEditProfileType) => {
+    const auth = useAppSelector(state => state.auth)
+    const profile = useAppSelector(state => state.profile.profile)
+
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const showModal = () => {
@@ -26,18 +23,12 @@ export const ModalEditProfile = (props: ModalEditProfileType) => {
         setIsModalOpen(false);
     };
 
-
     return (
         <>
-            {props.auth.id === props.profile.userId &&
+            {auth.id === profile.userId &&
             <Button type="primary" onClick={showModal}>Edit Profile</Button>}
             <Modal title="Edit Profile" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                <ModalForm
-                    profile={props.profile}
-                    status={props.status}
-                    profileStatus={props.profileStatus}
-                    message={props.message}
-                />
+                <ModalForm />
             </Modal>
         </>
     );

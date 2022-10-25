@@ -13,18 +13,11 @@ import {ContactsProfileStateType} from "../../common/types/types";
 export const Profile = () => {
 
     const dispatch = useAppDispatch()
-    const auth = useAppSelector(state => state.auth)
     const profile = useAppSelector(state => state.profile.profile)
     const status = useAppSelector(state => state.profile.status)
-    const profileStatus = useAppSelector(state => state.profile.updateProfileStatus)
-    const message = useAppSelector(state => state.profile.message)
 
     const userId = useParams()
     const id = +userId.id!
-
-    //const {facebook, github, instagram, mainLink, twitter, vk, website, youtube} = profile.contacts
-
-
 
     useEffect(() => {
         dispatch(getProfileTC({id}))
@@ -42,8 +35,6 @@ export const Profile = () => {
 
     const onChangeHandler = (e:ChangeEvent<HTMLInputElement>) => {
         setValue(e.currentTarget.value)
-
-
     }
 
     const onClickHandler = () => {
@@ -66,7 +57,7 @@ export const Profile = () => {
                         {profile.lookingForAJob && <img src={needJob} className={s.jobImage} alt="user"/>}
                     </div>
                 </div>
-                <ModalEditProfile profile={profile} status={status} profileStatus={profileStatus} message={message} auth={auth}/>
+                <ModalEditProfile  />
             </div>
 
             <div>
@@ -91,7 +82,8 @@ export const Profile = () => {
             </div>
             <Typography.Text > Contacts: </Typography.Text>
             {profile.contacts && Object.keys(profile.contacts).map((el , index ) => {
-                return profile.contacts[el as keyof ContactsProfileStateType] && <div style={{fontWeight: 'bold'}}>{el + ' : '} <a>{profile.contacts[el as keyof ContactsProfileStateType]}</a> </div>
+                const contact = profile.contacts[el as keyof ContactsProfileStateType]
+                return contact && <div style={{fontWeight: 'bold'}} key={index}>{el + ' : '} <a href={'www.google.com'}>{contact}</a> </div>
             })}
         </div>
 
