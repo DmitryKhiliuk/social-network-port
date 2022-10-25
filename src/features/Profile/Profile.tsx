@@ -91,7 +91,7 @@ export const Profile = () => {
             </div>
             <Typography.Text > Contacts: </Typography.Text>
             {profile.contacts && Object.keys(profile.contacts).map((el , index ) => {
-                return <Typography.Text key={index}>{profile.contacts[el as keyof ContactsProfileStateType] && el + ':' + profile.contacts[el as keyof ContactsProfileStateType]}</Typography.Text>
+                return profile.contacts[el as keyof ContactsProfileStateType] && <div style={{fontWeight: 'bold'}}>{el + ' : '} <a>{profile.contacts[el as keyof ContactsProfileStateType]}</a> </div>
             })}
         </div>
 
