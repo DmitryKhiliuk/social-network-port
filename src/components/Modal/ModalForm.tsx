@@ -1,41 +1,29 @@
-import {Button, Checkbox, Form, Input} from 'antd';
-import React, {useEffect, useState} from 'react';
+import {Checkbox, Form, Input} from 'antd';
+import React, {useState} from 'react';
 import TextArea from "antd/es/input/TextArea";
-import {ProfileUserStateType} from "../../common/types/types";
 import {useAppDispatch, useAppSelector} from "../../app/store";
 import {savePhotoTC, saveProfileTC} from "../../features/Profile/profile-reducer";
-import {CheckOutlined, EditOutlined} from "@ant-design/icons";
-import {ContactForm} from "./ContactForm";
+import {EditOutlined} from "@ant-design/icons";
+import {EditableButton} from "../EditableButton/EditableButton";
 
 
 export const ModalForm = () => {
 
     const dispatch = useAppDispatch()
-    const profileStatus = useAppSelector(state => state.profile.updateProfileStatus)
     const profile = useAppSelector(state => state.profile.profile)
 
-
-    const [requestProfile, setRequestProfile] = useState<ProfileUserStateType>(profile)
     const [success, setSuccess] = useState(false)
 
+    const {facebook, github, instagram, mainLink, twitter, vk, website, youtube} = profile.contacts
+
     const onFinish = (values: any) => {
-        setRequestProfile(values)
+        dispatch(saveProfileTC(values))
         setSuccess(true)
     };
-
-    const submitContacts = (values:any) => {
-        setRequestProfile ({...requestProfile, contacts: values})
-
-    }
 
     const onFocusHandler = () => {
         setSuccess(false)
     }
-
-
-    useEffect(() => {
-        dispatch(saveProfileTC(requestProfile))
-    }, [requestProfile])
 
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
@@ -90,13 +78,43 @@ export const ModalForm = () => {
                     <Checkbox />
                 </Form.Item>
 
+                <Form.Item label="Facebook" name={["contacts", "facebook"]} initialValue={facebook}>
+                    <Input />
+                </Form.Item>
+
+                <Form.Item label="Git" name={["contacts", "github"]} initialValue={github}>
+                    <Input />
+                </Form.Item>
+
+                <Form.Item label="Instagram" name={["contacts", "instagram"]} initialValue={instagram}>
+                    <Input />
+                </Form.Item>
+
+                <Form.Item label="MainLink" name={["contacts", "mainLink"]} initialValue={mainLink}>
+                    <Input />
+                </Form.Item>
+
+                <Form.Item label="Twitter" name={["contacts", "twitter"]} initialValue={twitter}>
+                    <Input />
+                </Form.Item>
+
+                <Form.Item label="VK" name={["contacts", "vk"]} initialValue={vk}>
+                    <Input />
+                </Form.Item>
+
+                <Form.Item label="Website" name={["contacts", "website"]} initialValue={website}>
+                    <Input />
+                </Form.Item>
+
+                <Form.Item label="YouTube" name={["contacts", "youtube"]} initialValue={youtube}>
+                    <Input />
+                </Form.Item>
+
                 <Form.Item wrapperCol={{offset: 8, span: 16}}>
-                    {!success && profileStatus && <Button type="primary" htmlType="submit">Save Profile</Button>}
-                    {success && !profileStatus && <Button type="primary" loading>Loading</Button>}
-                    {success && profileStatus && <Button type="primary" shape="round" icon={<CheckOutlined />} size={'middle'} style={{backgroundColor: 'green', border: 'green'}}/>}
+                    <EditableButton success={success} name={'Save Profile'}/>
                 </Form.Item>
             </Form>
-            <ContactForm callBackForm={submitContacts} />
+
         </div>
     );
 };

@@ -83,7 +83,7 @@ export const Profile = () => {
             <Typography.Text > Contacts: </Typography.Text>
             {profile.contacts && Object.keys(profile.contacts).map((el , index ) => {
                 const contact = profile.contacts[el as keyof ContactsProfileStateType]
-                return contact && <div style={{fontWeight: 'bold'}} key={index}>{el + ' : '} <a href={'www.google.com'}>{contact}</a> </div>
+                return contact && <div style={{fontWeight: 'bold'}} key={index}>{el + ' : '} <a href={contact} target='_blank'>{contact}</a> </div>
             })}
         </div>
 

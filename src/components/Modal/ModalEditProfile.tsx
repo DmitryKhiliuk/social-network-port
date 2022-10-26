@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import { Button, Modal } from 'antd';
+import React, {useState} from 'react';
+import {Button, Modal} from 'antd';
 import {ModalForm} from "./ModalForm";
-import {authType, ProfileUserStateType} from "../../common/types/types";
 import {useAppSelector} from "../../app/store";
 
 export const ModalEditProfile = () => {
