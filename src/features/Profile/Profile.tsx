@@ -9,12 +9,13 @@ import {Button, Input, Typography} from "antd";
 import {ModalEditProfile} from "../../components/Modal/ModalEditProfile";
 import {EditOutlined} from "@ant-design/icons";
 import {ContactsProfileStateType} from "../../common/types/types";
+import {selectProfile, selectProfileStatus} from "../../selectors/selectors";
 
 export const Profile = () => {
 
     const dispatch = useAppDispatch()
-    const profile = useAppSelector(state => state.profile.profile)
-    const status = useAppSelector(state => state.profile.status)
+    const profile = useAppSelector(selectProfile)
+    const status = useAppSelector(selectProfileStatus)
 
     const userId = useParams()
     const id = +userId.id!

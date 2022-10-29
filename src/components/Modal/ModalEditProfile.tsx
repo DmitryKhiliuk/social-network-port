@@ -2,11 +2,12 @@ import React, {useState} from 'react';
 import {Button, Modal} from 'antd';
 import {ModalForm} from "./ModalForm";
 import {useAppSelector} from "../../app/store";
+import {selectAuth, selectProfile} from "../../selectors/selectors";
 
 export const ModalEditProfile = () => {
 
-    const auth = useAppSelector(state => state.auth)
-    const profile = useAppSelector(state => state.profile.profile)
+    const auth = useAppSelector(selectAuth)
+    const profile = useAppSelector(selectProfile)
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 

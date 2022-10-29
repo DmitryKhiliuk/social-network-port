@@ -6,15 +6,16 @@ import {Pagination} from "antd";
 import {getProfileTC} from "../Profile/profile-reducer";
 import {useNavigate} from "react-router-dom";
 import {PROFILE} from "../../common/routes/routes";
+import {selectUsers, selectUsersPage, selectUsersPageSize, selectUsersTotalCount} from "../../selectors/selectors";
 
 export const Users = () => {
 
     const dispatch = useAppDispatch()
     const navigate = useNavigate();
-    const users = useAppSelector(state => state.users.users)
-    const totalCount = useAppSelector(state => state.users.totalCount)
-    const page = useAppSelector(state => state.users.page)
-    const pageSize = useAppSelector(state => state.users.count)
+    const users = useAppSelector(selectUsers)
+    const totalCount = useAppSelector(selectUsersTotalCount)
+    const page = useAppSelector(selectUsersPage)
+    const pageSize = useAppSelector(selectUsersPageSize)
 
     const onChangeHandler = (page: number, pageSize: number) => {
         dispatch(setInfoUsersPageAC({page, count: pageSize}))

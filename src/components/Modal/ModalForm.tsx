@@ -5,12 +5,13 @@ import {useAppDispatch, useAppSelector} from "../../app/store";
 import {savePhotoTC, saveProfileTC} from "../../features/Profile/profile-reducer";
 import {EditOutlined} from "@ant-design/icons";
 import {EditableButton} from "../EditableButton/EditableButton";
+import {selectProfile} from "../../selectors/selectors";
 
 
 export const ModalForm = () => {
 
     const dispatch = useAppDispatch()
-    const profile = useAppSelector(state => state.profile.profile)
+    const profile = useAppSelector(selectProfile)
 
     const [success, setSuccess] = useState(false)
 

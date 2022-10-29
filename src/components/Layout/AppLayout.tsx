@@ -18,21 +18,18 @@ import {authType, ProfileUserStateType} from "../../common/types/types";
 import logo from '../../assets/logo.svg'
 import logoShort from '../../assets/logoShort.png'
 import {useAppSelector} from "../../app/store";
+import {selectAppStatus, selectAuth, selectAuthId} from "../../selectors/selectors";
 
 type AppLayoutType = {
     logOut: () => void
-    //status: 'idle' | 'loading' | 'succeeded' | 'failed'
-    //id: number | null
-    //profile: ProfileUserStateType
     isDefaultPagination: () => void
 }
 
 export const AppLayout = (props: AppLayoutType) => {
 
-    const auth = useAppSelector(state => state.auth)
-    const status = useAppSelector(state => state.app.status)
-    //const profile = useAppSelector(state => state.profile.profile)
-    const id = useAppSelector(state => state.auth.id)
+    const auth = useAppSelector(selectAuth)
+    const status = useAppSelector(selectAppStatus)
+    const id = useAppSelector(selectAuthId)
 
     const [collapsed, setCollapsed] = useState(false);
     let location = useLocation();

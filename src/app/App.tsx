@@ -6,16 +6,15 @@ import {initializeAppTC} from "./app-reducer";
 import {getProfileInfoTC, logoutTC, resetProfileInfoAC} from "../features/Login/auth-reducer";
 import {Preloader} from "../components/Preloader/Preloader";
 import {setInfoUsersPageAC} from "../features/Users/users-reducer";
+import {selectAppInitialized, selectAuthId} from "../selectors/selectors";
 
 
 function App() {
 
     const dispatch = useAppDispatch()
-    //const auth = useAppSelector(state => state.auth)
-    const id = useAppSelector(state => state.auth.id)
-    const isInitialized = useAppSelector(state => state.app.isInitialized)
-    //const status = useAppSelector(state => state.app.status)
-    //const profile = useAppSelector(state => state.profile.profile)
+    const id = useAppSelector(selectAuthId)
+    const isInitialized = useAppSelector(selectAppInitialized)
+
 
     useEffect(() => {
         dispatch(initializeAppTC())

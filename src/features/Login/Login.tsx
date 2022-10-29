@@ -5,13 +5,14 @@ import {loginTC} from "./auth-reducer";
 import {LoginParamType} from "../../common/types/types";
 import {PROFILE} from "../../common/routes/routes";
 import {useNavigate} from "react-router-dom";
+import {selectAuthId, selectAuthIsAuth} from "../../selectors/selectors";
 
 
 export const Login = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate();
-    const auth = useAppSelector(state => state.auth.isAuth)
-    const id = useAppSelector(state => state.auth.id)
+    const auth = useAppSelector(selectAuthIsAuth)
+    const id = useAppSelector(selectAuthId)
 
     useEffect(() => {
         if (auth) {
