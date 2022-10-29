@@ -22,7 +22,7 @@ export const Login = () => {
 
     const onFinish = (values: LoginParamType) => {
         let valuesParam: LoginParamType = {...values, captcha: ''}
-        dispatch(loginTC(valuesParam))
+        dispatch(loginTC({valuesParam}))
     };
 
     const onFinishFailed = (errorInfo: any) => {
