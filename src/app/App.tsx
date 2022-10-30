@@ -21,7 +21,6 @@ function App() {
     }, [])
 
     useEffect(() => {
-        console.log(id)
         id && dispatch(getProfileInfoTC({id}))
     }, [id])
 

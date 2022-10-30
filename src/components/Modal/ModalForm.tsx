@@ -1,11 +1,11 @@
-import {Checkbox, Form, Input} from 'antd';
+import {Checkbox, Form, Input, } from 'antd';
 import React, {useState} from 'react';
-import TextArea from "antd/es/input/TextArea";
 import {useAppDispatch, useAppSelector} from "../../app/store";
 import {savePhotoTC, saveProfileTC} from "../../features/Profile/profile-reducer";
 import {EditOutlined} from "@ant-design/icons";
 import {EditableButton} from "../EditableButton/EditableButton";
 import {selectProfile} from "../../selectors/selectors";
+import TextArea from "antd/lib/input/TextArea";
 
 
 export const ModalForm = () => {
