@@ -33,6 +33,7 @@ export const saveStatusTC = createAsyncThunk('profile/saveStatus', async(param: 
     } catch (error) {
         console.log(error)
     }
+
 })
 
 export const savePhotoTC = createAsyncThunk('profile/savePhoto', async (param: { file: string }, ThunkAPI) => {
